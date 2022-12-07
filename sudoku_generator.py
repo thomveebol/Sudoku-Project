@@ -23,7 +23,10 @@ class SudokuGenerator:
 	None
     '''
     def __init__(self, row_length, removed_cells):
-        pass
+      self.row_length = row_length
+      self.removed_cells = removed_cells
+      self.box_length = math.sqrt(row_length)
+      self.board = self.get_board()
 
     '''
 	Returns a 2D python list of numbers which represents the board
@@ -32,8 +35,8 @@ class SudokuGenerator:
 	Return: list[list]
     '''
     def get_board(self):
-        pass
-
+      board = [[0 for x in range(self.row_length)] for y in range(self.row_length)]
+      return board
     '''
 	Displays the board to the console
     This is not strictly required, but it may be useful for debugging purposes
@@ -41,8 +44,28 @@ class SudokuGenerator:
 	Parameters: None
 	Return: None
     '''
-    def print_board(self):
-        pass
+        def print_board(self):
+        # initalizes appropriate perimeter for sudoku boxes
+        table_topbot = "|--------------------------------|"
+        table_mids = "|--------------------------------|"
+        # print top of table
+        print(table_topbot)
+        # loop through the board and prints the perimeter
+        for x in range(self.row_length):
+            for y in range(self.row_length):
+                # every 3 rows, print the horizontal middle perimeter
+                if (((x == 3) or (x == 6)) and (y == 0)):
+                    print(table_mids)
+                # prints the column box seperator every 3 cols
+                if (y % 3 == 0):
+                    print("|", end=" ")
+                print(f" {self.board[x][y]}", end=" ")
+                # ends the board with a perimeter
+                if y == 8:
+                    print("|")
+        # prints bottom of board
+        print(table_topbot)
+            
 
     '''
 	Determines if num is contained in the specified row (horizontal) of the board
@@ -55,7 +78,14 @@ class SudokuGenerator:
 	Return: boolean
     '''
     def valid_in_row(self, row, num):
-        pass
+      valid = True
+      # goes through the rows of the board
+      for x in range(self.row_length):
+        for y in range(self.row_length):
+          if self.board[row][y] == num:
+            valid = False
+      return valid
+            
 
     '''
 	Determines if num is contained in the specified column (vertical) of the board
@@ -68,7 +98,13 @@ class SudokuGenerator:
 	Return: boolean
     '''
     def valid_in_col(self, col, num):
-        pass
+      valid = True
+      # goes through the columns
+      for x in range(self.row_length):
+        for y in range(self.row_legth):
+          if self.board[x][col] == num:
+            valid = False
+      return valid
 
     '''
 	Determines if num is contained in the 3x3 box specified on the board
@@ -83,7 +119,16 @@ class SudokuGenerator:
 	Return: boolean
     '''
     def valid_in_box(self, row_start, col_start, num):
-        pass
+      valid = False 
+
+      # get the 3x3 box the user wants
+      row_selection = row_start // 3
+      col_selection = col_start // 3
+      # checks if number is in said box
+      for x in range(3):
+        for y in range(3):
+          if (self.board[row_selection + x] == num):
+            
     
     '''
     Determines if it is valid to enter num at (row, col) in the board
